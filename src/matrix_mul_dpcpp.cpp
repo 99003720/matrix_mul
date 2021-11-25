@@ -1,12 +1,4 @@
-    /*   
-  * Matrix_mul multiplies two large matrices both the CPU and the offload device,
-   * then compares results. If the code executes on both CPU and the offload
-   * device, the name of the offload device and a success message are displayed.
-   *
-   * For comprehensive instructions regarding DPC++ Programming, go to
-       * https://software.intel.com/en-us/oneapi-programming-guide and search based on
-   * relevant terms noted in the comments.
-   */
+  
 
 #include <CL/sycl.hpp>
 #include <iostream>
@@ -19,10 +11,7 @@
 using namespace std;
 using namespace sycl;
 
-/**
- * Each element of the product matrix c[i][j] is computed from a unique row and
- * column of the factor matrices, a[i][k] and b[k][j]
- */
+
 
 // Matrix size constants.
 constexpr int m_size = 150 * 8;  // Must be a multiple of 8.
@@ -43,14 +32,13 @@ int main() {
   for (int i = 0; i < M; i++)
     for (int j = 0; j < P; j++) c_back[i][j] = 0.0f;
 
-  // Initialize the device queue with the default selector. The device queue is
-  // used to enqueue kernels. It encapsulates all states needed for execution.
+ 
   try {
     queue q(default_selector{}, dpc_common::exception_handler);
 
     cout << "Device: " << q.get_device().get_info<info::device::name>() << "\n";
 
-    // Create 2D buffers for matrices, buffer c is bound with host memory c_back
+    // Create 2D buffers for matrices
 
     buffer<float, 2> a_buf(range(M, N));
     buffer<float, 2> b_buf(range(N, P));
@@ -59,10 +47,7 @@ int main() {
     cout << "Problem size: c(" << M << "," << P << ") = a(" << M << "," << N
          << ") * b(" << N << "," << P << ")\n";
 
-    // Using three command groups to illustrate execution order. The use of
-    // first two command groups for initializing matrices is not the most
-    // efficient way. It just demonstrates the implicit multiple command group
-    // execution ordering.
+   
 
     // Submit command group to queue to initialize matrix a
     q.submit([&](auto &h) {
