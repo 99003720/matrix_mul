@@ -110,7 +110,7 @@ int main() {
         for (int i = 0; i < width_a; i++) {
           sum += a[row][i] * b[i][col];
         }
-
+cout << "Answer:" << sum << "\n";
         c[index] = sum;
       });
     });
